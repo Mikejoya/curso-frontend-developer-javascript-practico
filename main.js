@@ -1,17 +1,22 @@
+//selectores  para realizar ma facil el llamado de algunas propiedades que necesitamos
 const menuEmail = document.querySelector('.navbar-email');
 const desktopMenu = document.querySelector('.desktop-menu');
 const menuCarritoIcon = document.querySelector('.navbar-shopping-cart');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
 const menuHamIcon = document.querySelector('.menu');
 const mobileMenu = document.querySelector('.mobile-menu');
-const cardsContainer = document.querySelector('.cards-container')
+const cardsContainer = document.querySelector('.cards-container');
+const productDetailContainer = document.querySelector('#productDetail');
+const productDetailCloseIcon = document.querySelector('.product-detail-close');
 
 
 menuEmail.addEventListener('click', toggleDesktopMenu);
 menuHamIcon.addEventListener('click', toggleMobileMenu);
 menuCarritoIcon.addEventListener('click', toggleCarritoAside);
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside);
 
 //toggle permite agregar o eliminar, en este caso el inactive que creamos en css para que cuando tengamos el evento click aparezca o desaparezca.
+
 
 function toggleDesktopMenu(){
     const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
@@ -20,6 +25,7 @@ function toggleDesktopMenu(){
         shoppingCartContainer.classList.add('inactive');
     }
 
+       closeProductDetailAside();
 
     desktopMenu.classList.toggle('inactive');
 
@@ -41,24 +47,47 @@ function toggleMobileMenu(){
         shoppingCartContainer.classList.add('inactive');
     }
 
+    closeProductDetailAside();
+
     mobileMenu.classList.toggle('inactive');
     
 }
 
 function toggleCarritoAside(){
 
-    const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
     const isDesktopClosed = desktopMenu.classList.contains('inactive');
 
-    if (!isDesktopClosed)
+    if (!isDesktopClosed){
         desktopMenu.classList.add('inactive');
+    }
+    
     //aside.classList.toggle('inactive');
+    const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
 
     if (!isMobileMenuClosed){
         mobileMenu.classList.add('inactive');
     }
 
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
+    if ('!isProductDetailClosed'){
+        productDetailContainer.classList.add('inactive');
+    }
+
     shoppingCartContainer.classList.toggle('inactive');
+}
+
+function openProductDetailAside(){
+
+    desktopMenu.classList.add('inactive');
+
+    shoppingCartContainer.classList.add('inactive')
+
+    productDetailContainer.classList.remove('inactive');
+}
+function closeProductDetailAside(){
+    productDetailContainer.classList.add('inactive');
+    
 }
 
 const productList = [];
@@ -102,6 +131,7 @@ function renderProducts(arr){
     // product= {name, price, image} -> product.image
     const productImg = document.createElement('img');
     productImg.setAttribute('src', product.image)
+    productImg.addEventListener('click', openProductDetailAside)
 
     const productInfo = document.createElement('div');
     productInfo.classList.add('product-info');
